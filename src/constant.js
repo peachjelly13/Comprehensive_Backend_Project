@@ -1,0 +1,1 @@
+export const DB_NAME = "MY_DATABASE" //in constant because this is not as sensitive that is why not placed in .env
