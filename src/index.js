@@ -1,7 +1,10 @@
 //require('dotenv').config({path:'./env'})
 // the above syntax destroys the uniformity of the code so we do not prefer it
+//hence we do not use require 
 import dotenv from "dotenv"
 import connectDB from "./db/index.js";
+
+//as early as possible import and configure .env
 
 dotenv.config({
     path:'./env'
