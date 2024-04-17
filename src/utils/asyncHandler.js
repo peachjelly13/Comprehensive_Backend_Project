@@ -1,3 +1,13 @@
+const asyncHandler = (requestHandler) =>{
+    (req,res,next)=>{
+        Promise.resolve(requestHandler(req,res,next)).catch((err)=>next(err))
+    }
+}
+
+export {asyncHandler}
+
+
+
 // //here asyncHandler is a higer order function which basically takes a function as
 // //a parameter and the format to write a higher order fucntion is as follows
 // // const asyncHandler = (fucntion_) => () => {}
@@ -25,6 +35,8 @@
 // }
 
 // export {asyncHandler}
+
+
 
 
 
