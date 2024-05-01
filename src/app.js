@@ -16,4 +16,17 @@ app.use(express.static("public")) //folder name public  to store the static file
 //this stores files like favicon, images etc
 app.use(cookieParser())
 
+//here we will be importing router, we import router in app 
+//we keep the index clean
+//here routes are not imported at the top but here itself 
+
+import userRouter from './routes/user.routes.js'
+app.use("api/v1/users",userRouter)
+
+//http://localhost:8000/api/v1/users/register - so this is what register route would look like
+
+
+
+
+
 export {app}
