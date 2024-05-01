@@ -8,3 +8,6 @@ const registerUser = asyncHandler(async(req,res)=>{
 
 
 export {registerUser}
+
+
+// no export default so it can be imoorted like this
