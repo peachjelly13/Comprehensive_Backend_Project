@@ -19,7 +19,7 @@ app.use(cookieParser())
 //here we will be importing router, we import router in app 
 //we keep the index clean
 //here routes are not imported at the top but here itself 
-
+ // we are able to import with the name of our choice because the syntax is export default syntax
 import userRouter from './routes/user.routes.js'
 app.use("/api/v1/users",userRouter)
 

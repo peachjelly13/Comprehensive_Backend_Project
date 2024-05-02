@@ -4,6 +4,9 @@ const registerUser = asyncHandler(async(req,res)=>{
     res.status(200).json({
         message:"Ok"
     })
+
+    const {email,fullname,password,username} = req.body;
+    console.log("email: ",email); // testing to be done using postman 
 })
 
 
