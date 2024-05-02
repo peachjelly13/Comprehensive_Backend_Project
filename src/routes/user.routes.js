@@ -7,11 +7,11 @@ const router = Router();
 router.route("/register").post(
     upload.fields(
         {
-            name:"Avatar",  //frontend should know the name that we are using 
+            name:"avatar",  //frontend should know the name that we are using 
             maxCount:1  
         },
         {
-            name:"CoverImage", 
+            name:"coverImage", 
             maxCount:1
         }
     ), // this takes an array  // we are applying middleware before calling our method

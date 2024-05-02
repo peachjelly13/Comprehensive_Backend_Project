@@ -20,10 +20,7 @@ class ApiError extends Errors{
         else{
             Error.captureStackTrace(this,this.construtor)
         }
-
     }
-    
-
 }
 
 export {ApiError}
