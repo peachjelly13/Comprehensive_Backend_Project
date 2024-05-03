@@ -1,14 +1,11 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
-import {User} from "../models/user.model.js"
+import { User } from "../models/user.model.js"
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
+
 const registerUser = asyncHandler(async(req,res)=>{
-    res.status(200).json({
-        message:"Ok"
-    })
-    
     //getting values from the frontend
     const {email,fullname,password,username} = req.body;
     console.log("email: ",email); // testing to be done using postman 
@@ -23,10 +20,10 @@ const registerUser = asyncHandler(async(req,res)=>{
 
     //check if user already exists 
     //this process here returns the first user it finds with that email and name
-    const existingUsername = User.findOne({
+    const existingUsername = await User.findOne({
         $or : [ { username }]
     })
-    const existingEmail = User.findOne({
+    const existingEmail = await User.findOne({
         $or: [ { email} ]
     })
     if(existingUsername){
@@ -37,7 +34,7 @@ const registerUser = asyncHandler(async(req,res)=>{
     }
 
     const avatarLocalPath = req.files?.avatar[0]?.path;
-    const coverImageLocalPath = req.files?.coverImage[0]?.path;
+    const coverImageLocalPath =  req.files?.coverImage[0]?.path;
 
     if(!avatarLocalPath){
         throw new ApiError(409,"Avatar file is required")
