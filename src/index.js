@@ -8,7 +8,7 @@ import { app } from "./app.js";
 //as early as possible import and configure .env
 
 dotenv.config({
-    path:'./env'
+    path:'./.env'
 })
 
 //we want that as soon as the file loads that fastly my environment variables are available throught the application

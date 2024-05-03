@@ -1,7 +1,7 @@
 import {v2 as cloudinary} from 'cloudinary';  //basically giving a custom name to v2
 import fs from "fs"     
 import { response } from 'express';
-import {uploadOnCloudinary} from "../utils/cloudinary.js"
+
 cloudinary.config({ 
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,

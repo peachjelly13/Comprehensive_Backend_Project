@@ -1,6 +1,6 @@
 //When we develop something, we often need our own error classes to reflect specific things that may go wrong in our tasks
-
-class ApiError extends Errors{
+import { Error } from "mongoose"
+class ApiError extends Error{
     constructor(
         statusCode,
         message="Something went Wrong",
