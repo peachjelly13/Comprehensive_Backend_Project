@@ -1,6 +1,7 @@
 import {v2 as cloudinary} from 'cloudinary';  //basically giving a custom name to v2
 import fs from "fs"     
 import { response } from 'express';
+import {uploadOnCloudinary} from "../utils/cloudinary.js"
 cloudinary.config({ 
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -15,6 +16,7 @@ const uploadOnCloudinary = async (localFilePath) =>{
             resource_type:"auto"
           }
         ) //give the name of your local file here
+        //cloudinary is returning a url
         console.log("Cloudinary file has been uploaded successfully",response.url) 
         return response
     }

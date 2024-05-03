@@ -1,6 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import {User} from "../models/user.model.js"
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 const registerUser = asyncHandler(async(req,res)=>{
     res.status(200).json({
@@ -40,7 +41,27 @@ const registerUser = asyncHandler(async(req,res)=>{
     if(!avatarLocalPath){
         throw new ApiError(409,"Avatar file is required")
     }
+    //servers take time 
 
+    const avatar = await uploadOnCloudinary(avatarLocalPath); // we do not have to go ahead until and unless this is completed
+    const coverImage = await uploadOnCloudinary(coverImageLocalPath);
+
+    if(!avatar){
+        throw new ApiError(409,"Avatar file is required")
+    }
+
+    const user = await User.create({
+        fullname,
+        avatar: avatar.url,
+        //we need to check if or not coverimage is present or no 
+        //if coverImage there then put the url else keep it empty
+        coverImage: coverImage?.url || "",
+        email,
+        password,
+        username: username.toLowerCase()
+    })
+
+    const createdUser = await User.findById(user._id);
 
 })
 
