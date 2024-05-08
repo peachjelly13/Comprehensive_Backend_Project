@@ -4,6 +4,21 @@ import { User } from "../models/user.model.js"
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
+const generateRefreshAndAccessToken = async(userId)=>{
+    try{
+        const user = await User.findById(userId);  //this is an object
+        const accessToken = user.generateAccessToken();
+        const refreshToken = user.generateRefreshToken();
+
+        user.refreshToken = refreshToken; //saving refreshtoken in our database
+        await user.save({validateBeforeSave: false});
+        return{accessToken,refreshToken}
+    }
+    catch(error){
+        throw new ApiError(500,"something went wrong while generating access and refresh token")
+    }
+}
+
 
 const registerUser = asyncHandler(async(req,res)=>{
     //getting values from the frontend
@@ -75,6 +90,57 @@ const registerUser = asyncHandler(async(req,res)=>{
     return res.status(201).json(
         new ApiResponse(200,createdUser,"User Registered Successfully")
     )//everything went alright
+
+
+
+})
+
+const loginUser = asyncHandler(async(req,res)=>{
+    const {email,username,password} = req.body; //got data from body
+    if(!username || !email){
+        throw new ApiError(400,"Username or password is required")
+    } //checked email and password given or not
+    const user = await User.findOne({
+        $or: [{username},{email}]
+    }) //this is us finding the value in our database 
+    if(!user){
+        throw new ApiError(404,"User does not exist")
+    }
+    //if username email not found the user doesnt exist
+    //now we know that user exists now we will be checking password using bcrypt
+    const isPasswordValid = await user.isPasswordCorrect(password);
+    if(!isPasswordValid){
+        throw new ApiError(401,"Password is incorrect")
+    }
+    //now checking password
+    //access and refresh tokens
+
+    const {accessToken, refreshToken} = await generateRefreshAndAccessToken(user._id);
+    const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
+    //cookies can be only accessed through the server and not the frontend
+    const options = {
+        httpOnly:true,
+        secure:true
+    }
+
+    return res
+    .status(200)
+    .cookie("accessToken",accessToken,options)
+    .cookie("refrehToken",refreshToken,options)
+    .json(
+        
+        new ApiResponse(
+                200,
+                {
+                    user: loggedInUser, accessToken,
+                    refreshToken
+                },
+                "User logged in Successfully"
+        )
+        
+    )
+
+
 
 
 
