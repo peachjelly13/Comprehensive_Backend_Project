@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken"
 import { User } from "../models/user.model";
 
 //this middleware will take accesstoken and tell if the user is the correct user or not
-export const verifyJWT = asyncHandler(async(req,res,next)=>{
+export const verifyJWT = asyncHandler(async(req,_,next)=>{
     try {
         //in case of mobile apps there is  a possibility of no cookies
         //hence first we will check if cookies there or not 
