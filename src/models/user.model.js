@@ -50,10 +50,9 @@ const userSchema = new Schema({
 },{
     timestamps:true  //this will give you craeted at and updated at by default
 })
-
-userSchema.pre("Save",async function(next){
+//because this process would take time hence we put the await keyword
+userSchema.pre("save",async function(next){
     if(!this.isModified("password")) return next();
-    //because this process would take time hence we put the await keyword
     this.password = await bcrypt.hash(this.password,10)
     next();
 })

@@ -4,6 +4,7 @@ import { User } from "../models/user.model.js"
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
+
 const generateRefreshAndAccessToken = async(userId)=>{
     try{
         const user = await User.findById(userId);  //this is an object
@@ -97,18 +98,20 @@ const registerUser = asyncHandler(async(req,res)=>{
 
 const loginUser = asyncHandler(async(req,res)=>{
     const {email,username,password} = req.body; //got data from body
-    if(!username || !email){
+    console.log(password)
+    if(!username && !email){
         throw new ApiError(400,"Username or password is required")
     } //checked email and password given or not
     const user = await User.findOne({
-        $or: [{username},{email}]
+        $or: [{username}, {email}]
     }) //this is us finding the value in our database 
     if(!user){
         throw new ApiError(404,"User does not exist")
     }
     //if username email not found the user doesnt exist
     //now we know that user exists now we will be checking password using bcrypt
-    const isPasswordValid = await user.isPasswordCorrect(password);
+    const isPasswordValid = await user.isPasswordCorrect(password)
+    console.log(isPasswordValid)
     if(!isPasswordValid){
         throw new ApiError(401,"Password is incorrect")
     }
