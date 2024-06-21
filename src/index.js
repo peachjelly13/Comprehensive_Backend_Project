@@ -1,6 +1,8 @@
 //require('dotenv').config({path:'./env'})
 // the above syntax destroys the uniformity of the code so we do not prefer it
 //hence we do not use require 
+//dotenv loads environment variables for you from a .env file into process.env
+// when your application starts.
 import dotenv from "dotenv"
 import connectDB from "./db/index.js";
 import { app } from "./app.js";

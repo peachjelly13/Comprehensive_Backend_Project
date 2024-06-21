@@ -51,6 +51,8 @@ const userSchema = new Schema({
     timestamps:true  //this will give you craeted at and updated at by default
 })
 //because this process would take time hence we put the await keyword
+//this is a hook pre hook , whenever we save a new value to our database
+//this pre hook or middleware will be called to do a check 
 userSchema.pre("save",async function(next){
     if(!this.isModified("password")) return next();
     this.password = await bcrypt.hash(this.password,10)
